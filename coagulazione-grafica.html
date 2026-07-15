@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Emostasi perioperatoria e coagulopatia - Versione grafica</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --color-bg: #F8FAFC;
+            --color-bg-deep: #EFF6FF;
+            --color-surface: #E2E8F0;
+            --color-text: #0F172A;
+            --color-text-secondary: #1F2937;
+            --color-text-muted: #4B5563;
+            --color-accent-1: #0EA5E9;
+            --color-accent-2: #22C55E;
+            --color-accent-3: #F59E0B;
+            --color-glass-bg: rgba(255,255,255,0.9);
+            --color-glass-border: rgba(15,23,42,0.08);
+            --color-vignette: rgba(15,23,42,0.06);
+            --font-display: 'Instrument Serif', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+    </style>
+
+    <style>
+        :root { --color-bg: #F8FAFC; --color-text: #0F172A; --glow-color-rgb: 14,165,233; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { background: var(--color-bg); margin: 0; }
+        body { font-family: var(--font-body); color: var(--color-text); overflow: hidden; height: 100vh; width: 100vw; }
+        .deck { width: 100vw; height: 100vh; position: relative; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: scale(0.97); transition: opacity 0.7s ease, transform 0.7s ease; pointer-events: none; overflow: hidden; }
+        .slide.active { opacity: 1; transform: scale(1); pointer-events: all; }
+        .slide > .content { position: relative; z-index: 2; width: 100%; max-width: 1100px; padding: clamp(1.8rem, 5vw, 4.2rem); }
+        .nav-controls { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; z-index: 100; background: var(--color-glass-bg); backdrop-filter: blur(8px); padding: 10px 24px; border-radius: 40px; border: 1px solid var(--color-glass-border); box-shadow: 0 10px 25px rgba(15,23,42,0.12); }
+        .nav-btn { width: 40px; height: 40px; border: none; background: #E5E7EB; color: var(--color-accent-1); border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.2s; }
+        .nav-btn:hover { background: #D1D5DB; transform: translateY(-1px); }
+        .slide-dots { display: flex; gap: 8px; }
+        .slide-dots .dot { width: 10px; height: 10px; border-radius: 50%; background: #CBD5F5; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+        .slide-dots .dot.active { background: var(--color-accent-1); transform: scale(1.3); }
+        .slide-counter { font-size: 0.8rem; color: var(--color-text-muted); min-width: 60px; text-align: center; }
+        .reveal { opacity: 0; transform: translateY(16px); }
+        @keyframes float-slow {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(40px, -30px) scale(1.08); }
+            50% { transform: translate(-30px, 30px) scale(0.95); }
+            75% { transform: translate(30px, 10px) scale(1.05); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes float-drift {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(-30px, -40px) scale(1.08) rotate(2deg); }
+            66% { transform: translate(25px, 20px) scale(0.95) rotate(-2deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        }
+        .gradient-mesh { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(70px); animation: float-slow 16s ease-in-out infinite; opacity: 0.18; }
+        .blob:nth-child(2) { animation: float-drift 22s ease-in-out infinite; opacity: 0.16; }
+        .blob:nth-child(3) { animation: float-slow 26s ease-in-out infinite reverse; opacity: 0.14; }
+        .slide::before {
+            content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            background-repeat: repeat; background-size: 256px 256px; opacity: 0.02; mix-blend-mode: multiply;
+        }
+        .slide::after {
+            content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 55%, var(--color-vignette) 100%);
+        }
+        .mouse-spotlight { position:fixed; inset:0; z-index:99; pointer-events:none; }
+        .pill-label { display:inline-flex; align-items:center; gap:0.4rem; padding:0.3rem 0.8rem; border-radius:999px; background:rgba(14,165,233,0.08); color:#0369A1; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.12em; }
+        .card { background: var(--color-glass-bg); border: 1px solid var(--color-glass-border); border-radius: 16px; padding: 1rem 1.2rem; box-shadow: 0 10px 25px rgba(15,23,42,0.08); transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(15,23,42,0.12); }
+        .timeline-track { position: relative; padding-top: 0.5rem; }
+        .timeline-line { position:absolute; left:0.5rem; top:0.8rem; bottom:0.8rem; width:3px; background:linear-gradient(to bottom, var(--color-accent-1), var(--color-accent-2)); border-radius:999px; }
+        .timeline-item { position:relative; padding-left:1.8rem; margin-bottom:0.8rem; }
+        .timeline-dot { position:absolute; left:0.2rem; top:0.3rem; width:0.7rem; height:0.7rem; border-radius:999px; background:var(--color-accent-1); box-shadow:0 0 0 4px rgba(14,165,233,0.18); }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="mouse-spotlight"></div>
+<div class="deck">
+
+    <div class="slide slide-1 active" data-slide="1">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 420px; height: 420px; top: -90px; right: -80px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 320px; height: 320px; bottom: -80px; left: -60px; background: var(--color-accent-2);"></div>
+            <div class="blob" style="width: 260px; height: 260px; top: 35%; left: 10%; background: var(--color-accent-3);"></div>
+        </div>
+        <div class="content text-center">
+            <div class="text-[96px] mb-4">🩸</div>
+            <h1 class="font-display text-[clamp(2.7rem,5vw,4.2rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent tracking-tight mb-3 reveal">Emostasi perioperatoria e coagulopatia</h1>
+            <p class="text-[clamp(1rem,2vw,1.4rem)] font-light text-text-muted tracking-[0.22em] uppercase reveal">Dalla fisiologia alla pratica clinica in chirurgia maggiore</p>
+        </div>
+    </div>
+
+    <div class="slide slide-2" data-slide="2">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <div class="pill-label mb-3 reveal">📊 PBM e outcome</div>
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-6 reveal">Patient Blood Management (PBM)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="card reveal">
+                    <div class="text-xl mb-1">⚠️ Outcome</div>
+                    <p class="text-[clamp(1rem,2vw,1.2rem)]">Il sanguinamento severo aumenta mortalità, infezioni, complicanze respiratorie e renali.</p>
+                </div>
+                <div class="card reveal">
+                    <div class="text-xl mb-1">🩸 Eritropoiesi e perdite</div>
+                    <p class="text-[clamp(1rem,2vw,1.2rem)]">PBM: ottimizzare eritropoiesi preoperatoria, ridurre perdite, correggere difetti specifici.</p>
+                </div>
+                <div class="card reveal">
+                    <div class="text-xl mb-1">🎯 Terapia goal-directed</div>
+                    <p class="text-[clamp(1rem,2vw,1.2rem)]">Passare da plasma e piastrine alla cieca a terapia emostatica goal-directed basata su test POC.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide slide-3" data-slide="3">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Modello cell-based: le 3 fasi</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Iniziazione: complesso VIIa/TF sui fibroblasti genera tracce di trombina, il trigger del sistema.</li><li class="mb-2">Amplificazione: la trombina attiva piastrine e fattori V, VIII, XI preparando il 'cantiere' sulla piastrina.</li><li class="mb-2">Propagazione: complessi Tenasi (VIIIa/IXa) e Protrombinasi (Va/Xa) sulla piastrina creano il burst di trombina.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide slide-4" data-slide="4">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Cell-based model: implicazioni cliniche</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Trombocitopenia o piastrine disfunzionali = assenza del 'cantiere' piastrinico e burst finale di trombina.</li><li class="mb-2">Emofilie: la generazione di FXa avviene fuori dalla piastrina, senza propagazione efficace sul substrato corretto.</li><li class="mb-2">rFVIIa ad alte dosi si lega direttamente alle piastrine attivate, generando FXa sulla piastrina e ripristinando il burst.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide slide-5" data-slide="5">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-3);"></div>
+        </div>
+        <div class="content">
+            <div class="pill-label mb-3 reveal">🧊 Triade letale</div>
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-6 reveal">Triade letale: ipotermia, acidosi, ipocalcemia</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="card reveal">
+                    <div class="text-xl mb-1">🥶 Ipotermia</div>
+                    <p class="text-[clamp(1rem,2vw,1.2rem)]">Ipotermia (<34 °C): rallenta gli enzimi, riduce espressione recettoriale piastrinica e blocca aggregazione.</p>
+                </div>
+                <div class="card reveal">
+                    <div class="text-xl mb-1">⚠️ Acidosi</div>
+                    <p class="text-[clamp(1rem,2vw,1.2rem)]">Acidosi (pH <7,2): altera le cariche di membrana, impedisce l'assemblaggio della protrombinasi e consuma fibrinogeno.</p>
+                </div>
+                <div class="card reveal">
+                    <div class="text-xl mb-1">🧪 Ipocalcemia</div>
+                    <p class="text-[clamp(1rem,2vw,1.2rem)]">Ipocalcemia (Ca++ <0,9 mmol/L): il calcio è ponte tra fattori vitamina K-dipendenti e fosfolipidi, senza normocalcemia propagazione spenta.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide slide-6" data-slide="6">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Emodiluizione e Circolazione Extracorporea (CEC)</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Priming di 1–2 L di cristalloidi/colloidi diluisce Hb, fattori e fibrinogeno sotto la soglia critica (~1,5 g/L).</li><li class="mb-2">Contatto con superfici artificiali attiva sistema da contatto, complemento e fibrinolisi (uPA/tPA) → iperfibrinolisi.</li><li class="mb-2">Shear stress nel circuito danneggia piastrine: conta apparentemente normale ma funzione gravemente compromessa.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide slide-7" data-slide="7">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <div class="pill-label mb-3 reveal">⏱️ ACT</div>
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">ACT: concetti chiave</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                    <li>⏱️ Misura il tempo alla formazione del primo coagulo in sangue intero con attivatore (caolino/celite).</li>
+                    <li>🫀 In cardiochirurgia: basale, post-bolo di eparina (target >400–480 s), controlli seriati durante CEC e post-protamina.</li>
+                    <li>⚠️ Limiti: emodiluizione e ipotermia possono falsamente allungare ACT, mascherando eparina insufficiente.</li>
+                </ul>
+                <div class="timeline-track reveal">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="text-sm font-semibold text-text-muted">Basale</div>
+                        <div class="text-[clamp(0.95rem,1.8vw,1.1rem)]">Prima dell'induzione: riferimento del paziente.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="text-sm font-semibold text-text-muted">Post-eparina</div>
+                        <div class="text-[clamp(0.95rem,1.8vw,1.1rem)]">Prima di entrare in CEC: ACT &gt; 400–480 s.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="text-sm font-semibold text-text-muted">Durante CEC</div>
+                        <div class="text-[clamp(0.95rem,1.8vw,1.1rem)]">Controlli ogni 20–30 min, correzione eparina.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="text-sm font-semibold text-text-muted">Post-protamina</div>
+                        <div class="text-[clamp(0.95rem,1.8vw,1.1rem)]">ACT vicino al basale: eparina realmente neutralizzata.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide slide-8" data-slide="8">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-2);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-3);"></div>
+        </div>
+        <div class="content">
+            <div class="pill-label mb-3 reveal">📈 ROTEM / TEG</div>
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">ROTEM/TEG: EXTEM e FIBTEM</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                    <li>📊 Valutano tempo di inizio, velocità di crescita, forza massima e fibrinolisi del coagulo in tempo reale.</li>
+                    <li>🧬 EXTEM: test globale dipendente da via estrinseca; FIBTEM: isolando contributo del fibrinogeno.</li>
+                    <li>🩺 EXTEM debole con FIBTEM normale = deficit piastrinico; entrambi piatti = deficit di fibrinogeno da emodiluizione/consumo.</li>
+                </ul>
+                <div class="card reveal">
+                    <div class="text-sm font-semibold text-text-muted mb-2">Interpretazione rapida</div>
+                    <ul class="list-disc list-outside pl-4 text-[clamp(0.95rem,1.8vw,1.1rem)] space-y-1">
+                        <li>EXTEM debole, FIBTEM normale → problema piastrinico.</li>
+                        <li>EXTEM piatto, FIBTEM piatto → fibrinogeno da reintegrare.</li>
+                        <li>Curve che collassano precocemente → iperfibrinolisi da trattare (TXA).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide slide-9" data-slide="9">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Coagulopatie perioperatorie</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Congenite: emofilie A/B (VIII/IX), von Willebrand con sanguinamenti profondi o mucocutanei, richiedono fattori/concentrati dedicati.</li><li class="mb-2">Acquisite: trauma (TIC con disfunzione piastrinica e iperfibrinolisi), consumo/emodiluizione in CEC, trapianto di fegato, aneurismi.</li><li class="mb-2">CID: consumo generalizzato di piastrine e fattori, micro-trombi diffusi e sanguinamento 'a nappo' per esaurimento delle scorte.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide slide-10" data-slide="10">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">HIT: trombocitopenia indotta da eparina</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Reazione immunitaria al complesso Eparina-PF4 con attivazione piastrinica paradossa.</li><li class="mb-2">Conta piastrinica ridotta ma quadro clinico dominato da trombosi arteriose e venose, non da sanguinamento.</li><li class="mb-2">Gestione: sospendere subito tutta l'eparina, evitare piastrine, usare anticoagulanti alternativi (es. Argatroban, Bivalirudina).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide slide-11" data-slide="11">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-3);"></div>
+        </div>
+        <div class="content">
+            <div class="pill-label mb-3 reveal">🧠 Neurassiale & timing</div>
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-6 reveal">Blocchi neurassiali: timing</h2>
+            <div class="timeline-track reveal">
+                <div class="timeline-line"></div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="text-sm font-semibold text-text-muted">LMWH profilattica</div>
+                    <div class="text-[clamp(1.05rem,2vw,1.25rem)]">LMWH profilattica: attendere ≥12 h prima di puntura, ≥4 h dopo rimozione catetere prima di nuova dose.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="text-sm font-semibold text-text-muted">LMWH terapeutica</div>
+                    <div class="text-[clamp(1.05rem,2vw,1.25rem)]">LMWH terapeutica: sospensione ≥24 h prima di blocco, massima cautela nel post-operatorio.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="text-sm font-semibold text-text-muted">DOAC</div>
+                    <div class="text-[clamp(1.05rem,2vw,1.25rem)]">DOAC (Apixaban, Rivaroxaban, Dabigatran): sospensione 3–5 giorni in base a emivita e funzione renale; blocco controindicato con farmaco circolante.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide slide-12" data-slide="12">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Arsenale farmacologico: concentrati</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">TXA: bolo 1 g (15–20 mg/kg) seguito da infusione, antifibrinolitico di scelta in trauma e chirurgia maggiore.</li><li class="mb-2">Fibrinogeno concentrato: 25–50 mg/kg (2–4 g) per mantenere livelli >1,5–2 g/L, guidati da FIBTEM.</li><li class="mb-2">ATIII e reversal DOAC (es. Idarucizumab per Dabigatran) per correggere resistenza all'eparina e sanguinamenti life-threatening.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide slide-13" data-slide="13">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">UFH vs LMWH: perchè UFH in SO</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">UFH: azione su ATIII e trombina, inizio rapido ev, emivita breve, titolabile con ACT e reversibile quasi completamente con Protamina.</li><li class="mb-2">LMWH: prevalentemente anti-Xa, ottima biodisponibilità sc, emivita lunga, clearance renale e reversal incompleto con Protamina (~60%).</li><li class="mb-2">In cardiochirurgia/vascolare serve controllo istantaneo e reversibile dell'emostasi: per questo si preferisce UFH.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide slide-14" data-slide="14">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-2);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-3);"></div>
+        </div>
+        <div class="content">
+            <div class="pill-label mb-3 reveal">🩺 Scenario cardiochirurgia e arresto di circolo</div>
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Pratica clinica: cardiochirurgia e arresto di circolo</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">CEC: gestire priming, temperature, acidosi e fibrinolisi con TXA e correzione fattoriale guidata da ROTEM.</li><li class="mb-2">ACT e ATIII per garantire anticoagulazione sicura in CEC e revertire con Protamina in modo completo.</li>
+            </ul>
+            <div class="mt-5 card reveal">
+                <div class="text-sm font-semibold text-text-muted mb-1">✅ Take home</div>
+                <div class="text-[clamp(1.05rem,2vw,1.25rem)]">Take home: in cardiochirurgia il numero di piastrine non basta, conta la loro funzione e il 'cantiere' piastrinico.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide slide-15" data-slide="15">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-2);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-3);"></div>
+        </div>
+        <div class="content">
+            <div class="pill-label mb-3 reveal">🩺 Scenario chirurgia vascolare maggiore</div>
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Pratica clinica: chirurgia vascolare maggiore</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Aneurismi aortici e chirurgia vascolare = rischio elevato di emodiluizione e consumo di fibrinogeno.</li><li class="mb-2">Gestione fluido-restrittiva, TXA precoce, fibrinogeno concentrato e piastrine guidati da ROTEM/TEG.</li>
+            </ul>
+            <div class="mt-5 card reveal">
+                <div class="text-sm font-semibold text-text-muted mb-1">✅ Take home</div>
+                <div class="text-[clamp(1.05rem,2vw,1.25rem)]">Take home: anticipare la coagulopatia da consumo/emodiluizione, non inseguire il sanguinamento.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide slide-16" data-slide="16">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-2);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-3);"></div>
+        </div>
+        <div class="content">
+            <div class="pill-label mb-3 reveal">🩺 Scenario ortopedia e trauma</div>
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Pratica clinica: ortopedia e trauma</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Trauma ortopedico e politrauma: coagulopatia precoce (TIC) con disfunzione piastrinica e iperfibrinolisi.</li><li class="mb-2">TXA sistematico nelle prime fasi, PBM per ridurre perdite, correzione mirata di fibrinogeno e piastrine.</li>
+            </ul>
+            <div class="mt-5 card reveal">
+                <div class="text-sm font-semibold text-text-muted mb-1">✅ Take home</div>
+                <div class="text-[clamp(1.05rem,2vw,1.25rem)]">Take home: il trauma arriva già scoagulato, la finestra per intervenire è nelle prime ore.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide slide-17" data-slide="17">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Conclusioni: take home generali</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Pensare alla coagulazione come processo cell-based sulla piastrina, non solo come cascata plasmatiche.</li><li class="mb-2">Integrare PBM, correzione della triade letale e monitoraggio viscoelastico per terapia emostatica mirata.</li><li class="mb-2">Usare concentrati specifici e farmacologia ragionata (TXA, fibrinogeno, ATIII, UFH/LMWH, reversal DOAC) per migliorare outcome.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide slide-18" data-slide="18">
+        <div class="gradient-mesh">
+            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
+            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Grazie per l'attenzione</h2>
+            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
+                <li class="mb-2">Domande, casi clinici e discussione sono benvenuti.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div class="nav-controls">
+    <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+    <span class="slide-counter" id="counter"></span>
+</div>
+
+<script>
+    let current = 1;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    const dotsContainer = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+
+    for (let i = 1; i <= total; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i === 1 ? ' active' : '');
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+    }
+
+    function goToSlide(n) {
+        const prev = document.querySelector('.slide.active');
+        const next = document.querySelector('.slide[data-slide="' + n + '"]');
+        if (prev) prev.classList.remove('active');
+        if (next) {
+            next.classList.add('active');
+            animateSlide(next);
+        }
+        current = n;
+        updateNav();
+    }
+
+    function changeSlide(dir) {
+        let next = current + dir;
+        if (next < 1) next = total;
+        if (next > total) next = 1;
+        goToSlide(next);
+    }
+
+    function updateNav() {
+        document.querySelectorAll('.dot').forEach((d, i) => {
+            d.classList.toggle('active', i + 1 === current);
+        });
+        if (counter) {
+            counter.textContent = current + ' / ' + total;
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            e.preventDefault();
+            changeSlide(1);
+        }
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            changeSlide(-1);
+        }
+    });
+
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    });
+    document.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+            changeSlide(diff > 0 ? 1 : -1);
+        }
+    });
+
+    function animateSlide(slide) {
+        slide.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transition = 'none';
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(16px)';
+            el.offsetHeight;
+            const delay = i * 0.08;
+            el.style.transition = 'opacity 0.35s ease ' + delay + 's, transform 0.35s ease ' + delay + 's';
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0px)';
+        });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        const spotlight = document.querySelector('.mouse-spotlight');
+        if (spotlight) {
+            const rgb = getComputedStyle(document.documentElement).getPropertyValue('--glow-color-rgb').trim() || '14,165,233';
+            spotlight.style.background = 'radial-gradient(520px circle at ' + e.clientX + 'px ' + e.clientY + 'px, rgba(' + rgb + ', 0.08), transparent 45%)';
+        }
+    });
+
+    window.addEventListener('load', () => {
+        if (slides.length > 0) {
+            animateSlide(slides[0]);
+        }
+        updateNav();
+    });
+</script>
+</body>
+</html>
