@@ -85,6 +85,128 @@
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
         }
+  @media (max-width: 768px) {
+  body {
+    overflow: auto;
+    height: auto;
+    width: 100%;
+  }
+
+  .deck {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .slide {
+    position: relative;
+    min-height: 100vh;
+    height: auto;
+    padding: 1rem 0.75rem 5.5rem;
+    transform: none !important;
+  }
+
+  .slide > .content {
+    max-width: 100%;
+    padding: 1rem 0.5rem 0;
+  }
+
+  .nav-controls {
+    bottom: 12px;
+    padding: 8px 14px;
+    gap: 10px;
+    max-width: calc(100vw - 24px);
+  }
+
+  .slide-counter {
+    min-width: 44px;
+    font-size: 0.72rem;
+  }
+
+  .nav-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+  }
+
+  .slide-dots .dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  h1, h2, h3 {
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .timeline-track {
+    padding-top: 0.25rem;
+  }
+
+  .timeline-line {
+    left: 0.45rem;
+  }
+
+  .timeline-item {
+    padding-left: 1.5rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .card {
+    padding: 0.9rem 1rem;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .blob {
+    opacity: 0.08;
+    filter: blur(50px);
+  }
+
+  .pill-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+
+  ul, ol {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide {
+    padding-bottom: 5.25rem;
+  }
+
+  .slide > .content {
+    padding: 0.85rem 0.35rem 0;
+  }
+
+  .font-display {
+    font-size: clamp(1.75rem, 8vw, 2.2rem) !important;
+    line-height: 1.05;
+  }
+
+  .nav-controls {
+    padding: 7px 10px;
+    gap: 8px;
+  }
+
+  .slide-dots {
+    gap: 6px;
+  }
+
+  .card {
+    border-radius: 14px;
+  }
+}
     </style>
 </head>
 <body>
