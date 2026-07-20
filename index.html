@@ -129,18 +129,84 @@
         </div>
     </div>
 
-    <div class="slide slide-3" data-slide="3">
+        <div class="slide slide-3" data-slide="3">
+        <!-- Blob posizionati strategicamente per creare un glow dietro l'immagine e i testi -->
         <div class="gradient-mesh">
-            <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
-            <div class="blob" style="width: 280px; height: 280px; bottom: -70px; left: -50px; background: var(--color-accent-2);"></div>
+            <div class="blob" style="width: 500px; height: 500px; top: 10%; right: -50px; background: var(--color-accent-1); opacity: 0.15;"></div>
+            <div class="blob" style="width: 300px; height: 300px; bottom: -50px; left: -50px; background: var(--color-accent-2); opacity: 0.12;"></div>
         </div>
-        <div class="content">
-            <h2 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-bold mb-4 reveal">Modello cell-based: le 3 fasi</h2>
-            <ul class="list-disc list-outside pl-6 text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed space-y-2 reveal">
-                <li class="mb-2">Iniziazione: complesso VIIa/TF sui fibroblasti genera tracce di trombina, il trigger del sistema.</li><li class="mb-2">Amplificazione: la trombina attiva piastrine e fattori V, VIII, XI preparando il 'cantiere' sulla piastrina.</li><li class="mb-2">Propagazione: complessi Tenasi (VIIIa/IXa) e Protrombinasi (Va/Xa) sulla piastrina creano il burst di trombina.</li>
-            </ul>
+        
+        <div class="content relative z-10 w-full max-w-[1200px] mx-auto">
+            <div class="pill-label mb-2 reveal">🔬 Fisiologia Emostatica</div>
+            <h2 class="font-display text-[clamp(2.2rem,4vw,3.5rem)] font-bold mb-8 reveal text-text tracking-tight">Modello cell-based: le 3 fasi</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Colonna Testo: 5/12. Trasformata in una timeline verticale elegante -->
+                <div class="lg:col-span-5 reveal">
+                    <div class="timeline-track">
+                        <div class="timeline-line bg-gradient-to-b from-accent-1 via-accent-2 to-accent-3 opacity-60"></div>
+                        
+                        <!-- Fase 1 -->
+                        <div class="timeline-item mb-8 group">
+                            <div class="timeline-dot bg-accent-1 shadow-[0_0_0_4px_rgba(14,165,233,0.15)] group-hover:scale-125 transition-transform duration-300"></div>
+                            <div class="card p-4 hover:shadow-xl transition-all duration-300 bg-white/60 backdrop-blur-md border-white/40">
+                                <h3 class="text-xl font-bold text-text mb-1 flex items-center gap-2">
+                                    <span class="text-accent-1">01.</span> Iniziazione
+                                </h3>
+                                <p class="text-[clamp(1rem,1.1vw,1.15rem)] text-text-secondary leading-relaxed">
+                                    Il complesso <strong>VIIa/TF</strong> sui fibroblasti genera tracce di trombina. È il <em>trigger</em> iniziale del sistema, fuori dal circolo sanguigno.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Fase 2 -->
+                        <div class="timeline-item mb-8 group">
+                            <div class="timeline-dot bg-accent-2 shadow-[0_0_0_4px_rgba(34,197,94,0.15)] group-hover:scale-125 transition-transform duration-300"></div>
+                            <div class="card p-4 hover:shadow-xl transition-all duration-300 bg-white/60 backdrop-blur-md border-white/40">
+                                <h3 class="text-xl font-bold text-text mb-1 flex items-center gap-2">
+                                    <span class="text-accent-2">02.</span> Amplificazione
+                                </h3>
+                                <p class="text-[clamp(1rem,1.1vw,1.15rem)] text-text-secondary leading-relaxed">
+                                    La trombina "sveglia" le piastrine e attiva i fattori V, VIII, XI. La piastrina si prepara a diventare l'intero <strong>cantiere operativo</strong>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Fase 3 -->
+                        <div class="timeline-item group">
+                            <div class="timeline-dot bg-accent-3 shadow-[0_0_0_4px_rgba(245,158,11,0.15)] group-hover:scale-125 transition-transform duration-300"></div>
+                            <div class="card p-4 hover:shadow-xl transition-all duration-300 bg-white/60 backdrop-blur-md border-white/40">
+                                <h3 class="text-xl font-bold text-text mb-1 flex items-center gap-2">
+                                    <span class="text-accent-3">03.</span> Propagazione
+                                </h3>
+                                <p class="text-[clamp(1rem,1.1vw,1.15rem)] text-text-secondary leading-relaxed">
+                                    Ancorati sulla piastrina, i complessi <strong>Tenasi</strong> e <strong>Protrombinasi</strong> creano l'esplosione (burst) di trombina necessaria per la fibrina.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Colonna Immagine: 7/12. Immagine grande, centrata, con effetto shadow glow -->
+                <div class="lg:col-span-7 reveal relative flex justify-center items-center">
+                    <!-- Glow posteriore all'immagine -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-accent-1/20 to-accent-2/20 blur-3xl rounded-full transform scale-90 -z-10"></div>
+                    
+                    <!-- Contenitore immagine stile "MacBook Screen" -->
+                    <div class="w-full bg-white p-2 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-gray-100/50 transform hover:-translate-y-2 transition-transform duration-500">
+                        <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-100 p-1">
+                            <!-- NOTA: %20 gestisce gli spazi nel nome del file 'cell b model.png' -->
+                            <img src="cell%20b%20model.png" alt="Schema Fisiologico Cell-Based Model" class="w-full h-auto object-contain mix-blend-multiply">
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
+
 
     <div class="slide slide-4" data-slide="4">
         <div class="gradient-mesh">
