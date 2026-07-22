@@ -98,7 +98,17 @@
         <div class="blob" style="width: 260px; height: 260px; top: 35%; left: 10%; background: var(--color-accent-3);"></div>
     </div>
 
-    <div class="content text-center relative">
+    <!-- Posizionamento fisso in alto a destra, indipendente dal blocco di testo -->
+    <div class="absolute top-8 right-8 z-50 reveal flex flex-col items-center gap-1.5 rounded-xl border border-black/5 bg-white/20 px-2 py-2 backdrop-blur-md shadow-sm">
+        <img
+            src="qrcode-coag.png.jpg"
+            alt="QR code al PDF della presentazione"
+            class="w-20 h-20 rounded-lg bg-white p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.1)] object-contain mix-blend-multiply"
+        >
+        <span class="text-[0.6rem] font-medium uppercase tracking-widest text-text/60">Apri PDF</span>
+    </div>
+
+    <div class="content text-center">
         <div class="text-[96px] mb-4 reveal">🩸</div>
         <h1 class="font-display text-[clamp(2.7rem,5vw,4.2rem)] font-black bg-linear-to-br from-accent-1 via-accent-2 to-accent-1 bg-clip-text text-transparent tracking-tight mb-3 reveal">
             Emostasi perioperatoria e coagulopatia
@@ -106,18 +116,9 @@
         <p class="text-[clamp(1rem,2vw,1.4rem)] font-light text-text-muted tracking-[0.22em] uppercase reveal">
             Dalla fisiologia alla pratica clinica in chirurgia maggiore
         </p>
-
-        <div class="absolute bottom-6 right-6 reveal flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/8 px-3 py-3 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.22)]">
-            <img
-                src="qrcode-coag.png"
-                alt="QR code al PDF della presentazione"
-                class="w-28 h-28 rounded-xl bg-white p-2 shadow-[0_6px_18px_rgba(0,0,0,0.18)] object-contain"
-            >
-            <span class="text-[0.68rem] uppercase tracking-[0.18em] text-text-muted">Apri PDF</span>
-        </div>
     </div>
 </div>
-
+   
     <div class="slide slide-2" data-slide="2">
         <div class="gradient-mesh">
             <div class="blob" style="width: 360px; height: 360px; top: -70px; right: -70px; background: var(--color-accent-1);"></div>
